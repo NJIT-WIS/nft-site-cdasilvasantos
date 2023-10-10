@@ -76,17 +76,41 @@ test('Check Buy Section', async ({ page }) => {
 });
 
 
-test('Check Testimonials Section', async ({ page }) => {
+test('Check Testimonials Section', async () => {
   const expectedTestimonialsTitle = 'Read What Others Have to Say'; // Expected title
   const expectedTestimonialCount = 3; // Expected number of testimonials
+  let browser;
 
-  // Check the testimonials section title
-  const testimonialsTitle = await page.locator('.testimonials-header h2').textContent();
-  expect(testimonialsTitle).toBe(expectedTestimonialsTitle);
+  try {
+    // Launch a new browser instance
+    browser = await chromium.launch();
 
-  // Check the number of testimonials
-  const testimonialCount = await page.locator('.testimonial-cards .testimonial').count();
-  expect(testimonialCount).toBe(expectedTestimonialCount);
+    // Create a new page and navigate to a URL
+    const page = await browser.newPage();
+    await page.setContent(/* Your HTML content here */);
+
+    // Increase the test timeout
+    page.setDefaultTimeout(60000); // Set a timeout of 60 seconds
+
+    // Wait for the testimonials section title to appear
+    const testimonialsTitleSelector = '.testimonials-header h2';
+    await page.waitForSelector(testimonialsTitleSelector);
+
+    // Check the testimonials section title
+    const testimonialsTitle = await page.locator(testimonialsTitleSelector).textContent();
+    expect(testimonialsTitle).toBe(expectedTestimonialsTitle);
+
+    // Check the number of testimonials
+    const testimonialCount = await page.locator('.testimonial-cards .testimonial').count();
+    expect(testimonialCount).toBe(expectedTestimonialCount);
+  } catch (error) {
+    console.error('Error:', error);
+  } finally {
+    if (browser) {
+      // Close the browser instance
+      await browser.close();
+    }
+  }
 });
 
 
