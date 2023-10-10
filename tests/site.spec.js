@@ -76,45 +76,9 @@ test('Check Buy Section', async ({ page }) => {
 });
 
 
-const { chromium } = require('playwright');
-
-test('Check Testimonials Section', async () => {
-  const expectedTestimonialsTitle = 'Read What Others Have to Say';
-  const expectedTestimonialCount = 3;
-
-  // Launch a new browser instance
-  const browser = await chromium.launch();
-
-  // Create a new page and set its content to your HTML
-  const page = await browser.newPage();
-  await page.setContent(`
-  <section class="hero_center testimonials">
-  <div class="testimontials-header">
-      <h2>Read What Others Have to Say</h2>
-      <p>Testimonials</p>
-  </div>
-  <div class="testimonial-cards">
-      <div class="testimonial testimonial-color1">
-          <img class="circular-image" src="images/oliviia.png" alt="Placeholder image for Olivia">
-          <h2>Olivia Cole</h2>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc ullamcorper scelerisque mi, in malesuada felis malesuada vel.</p>
-      </div>
-      <div class="testimonial testimonial-color2">
-          <img class="circular-image" src="images/evan.png" alt="Placeholder image for Evan">
-          <h2>Evan White</h2>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc ullamcorper scelerisque mi, in malesuada felis malesuada vel.</p>
-      </div>
-      <div class="testimonial testimonial-color3">
-          <img class="circular-image" src="images/jessica.png" alt="Placeholder image for jessica">
-          <h2>Jessica Page</h2>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc ullamcorper scelerisque mi, in malesuada felis malesuada vel.</p>
-      </div>
-  </div>
-</section>
-  `);
-
-  // Increase the test timeout
-  page.setDefaultTimeout(60000); // Set a timeout of 60 seconds
+test('Check Testimonials Section', async ({ page }) => {
+  const expectedTestimonialsTitle = 'Read What Others Have to Say'; // Expected title
+  const expectedTestimonialCount = 3; // Expected number of testimonials
 
   // Check the testimonials section title
   const testimonialsTitle = await page.locator('.testimonials-header h2').textContent();
@@ -123,9 +87,6 @@ test('Check Testimonials Section', async () => {
   // Check the number of testimonials
   const testimonialCount = await page.locator('.testimonial-cards .testimonial').count();
   expect(testimonialCount).toBe(expectedTestimonialCount);
-
-  // Close the browser
-  await browser.close();
 });
 
 
