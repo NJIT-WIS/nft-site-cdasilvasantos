@@ -77,10 +77,22 @@ test('Check Buy Section', async ({ page }) => {
 
 
 test('Check Testimonials Section', async ({ page }) => {
-  expect(await page.locator('.testimonials-header h2').textContent()).toBe(expectedTestimonialsTitle);
+  const expectedTestimonialsTitle = 'Testimonials'; // Expected title
+  const expectedTestimonialCount = 3; // Expected number of testimonials
+
+  // Locate the <h2> element within the .testimonials-header
+  const h2Text = await page.locator('.testimonials-header h2').textContent();
+
+  // Compare the text content with the expected title
+  expect(h2Text).toBe(expectedTestimonialsTitle);
+
+  // Count the number of .testimonial elements within .testimonial-cards
   const testimonialCount = await page.locator('.testimonial-cards .testimonial').count();
+
+  // Compare the count with the expected number of testimonials
   expect(testimonialCount).toBe(expectedTestimonialCount);
 });
+
 
 test('Check Ready Section', async ({ page }) => {
   expect(await page.locator('.ready h2').textContent()).toBe(expectedReadyTitle);
