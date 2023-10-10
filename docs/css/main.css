@@ -42,3 +42,8 @@ a {
 a:hover {
     text-decoration: underline;
 }
+
+main {
+    max-width: 1440px;
+    margin: 0 auto;
+}
