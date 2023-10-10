@@ -146,18 +146,25 @@ test('Check All Featured Company Logos', async ({ page }) => {
 });
 
 
-test('Check Testimonials Section', async ({ page }) => {
-  const expectedTestimonialsTitle = 'Read What Others Have to Say'; // Expected title
+async function checkSectionTitle(page, expectedTitle, selector) {
+  // Wait for the element specified by the selector
+  await page.waitForSelector(selector);
 
-  // Wait for the <h2> element within the .testimonials-header
-  await page.waitForSelector('.testimonials-header h2');
-  
-  // Locate the <h2> element within the .testimonials-header
-  const h2Text = await page.locator('.testimonials-header h2').textContent();
+  // Locate the element using the selector
+  const elementText = await page.locator(selector).textContent();
 
   // Compare the text content with the expected title
-  expect(h2Text).toBe(expectedTestimonialsTitle);
+  expect(elementText).toBe(expectedTitle);
+}
+
+test('Check Testimonials Section Title', async ({ page }) => {
+  const expectedTestimonialsTitle = 'Read What Others Have to Say'; // Expected title
+  const testimonialsSelector = '.testimonials-header h2'; // Selector for the element
+
+  // Call the reusable function to check the section title
+  await checkSectionTitle(page, expectedTestimonialsTitle, testimonialsSelector);
 });
+
 
 
 test('Check All Footer Links', async ({ page }) => {
