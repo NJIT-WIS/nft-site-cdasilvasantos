@@ -167,13 +167,33 @@ test('Check All Footer Links', async ({ page }) => {
 });
 
 test('Check All Footer Icons', async ({ page }) => {
+  // Define the expected icons using their class names
+  const expectedIcons = [
+    'fas fa-home',
+    'fas fa-money-bill-wave',
+    'fas fa-hand-holding-usd',
+    'fas fa-eye',
+    'fas fa-envelope',
+    'fas fa-linkedin',
+    'fas fa-instagram',
+    'fas fa-twitter',
+    'fas fa-store',
+    'fas fa-phone',
+    'fas fa-envelope-open-text',
+  ];
+
+  // Locate all the footer icons
   const footerIcons = await page.locator('.footer-link i');
   const count = await footerIcons.count();
 
   for (let i = 0; i < count; i++) {
     const icon = footerIcons.nth(i);
-    expect(await icon.isVisible()).toBe(true);
+    const iconName = await icon.getAttribute('class');
+
+    // Check if the class name of the icon matches an expected icon class name
+    expect(expectedIcons.includes(iconName)).toBe(true);
   }
 });
+
 
 
