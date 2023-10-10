@@ -66,8 +66,15 @@ test('Check About Section', async ({ page }) => {
 });
 
 test('Check Buy Section', async ({ page }) => {
-  expect(await page.locator('.hero h1').textContent()).toBe(expectedBuyTitle);
+  const expectedBuyTitle = 'Discover and Collect Rare NFTs'; // Expected title
+
+  // Locate the <h1> element within the .hero section
+  const h1Text = await page.locator('.hero h1').textContent();
+
+  // Compare the text content with the expected title
+  expect(h1Text).toBe(expectedBuyTitle);
 });
+
 
 test('Check Testimonials Section', async ({ page }) => {
   expect(await page.locator('.testimonials-header h2').textContent()).toBe(expectedTestimonialsTitle);
