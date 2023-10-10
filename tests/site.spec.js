@@ -66,7 +66,7 @@ test('Check About Section', async ({ page }) => {
 });
 
 test('Check Buy Section', async ({ page }) => {
-  expect(await page.locator('#buy h1').textContent()).toBe(expectedBuyTitle);
+  expect(await page.locator('.hero h1').textContent()).toBe(expectedBuyTitle);
 });
 
 test('Check Testimonials Section', async ({ page }) => {
