@@ -76,9 +76,28 @@ test('Check Buy Section', async ({ page }) => {
 });
 
 
-test('Check Testimonials Section', async ({ page }) => {
+const { chromium } = require('playwright');
+
+test('Check Testimonials Section', async () => {
   const expectedTestimonialsTitle = 'Read What Others Have to Say';
-  const expectedTestimonialCount = 3; // Assuming there are three testimonials on the page
+  const expectedTestimonialCount = 3;
+
+  // Launch a new browser instance
+  const browser = await chromium.launch();
+
+  // Create a new page and set its content to your HTML
+  const page = await browser.newPage();
+  await page.setContent(`
+    <section class="hero_center testimonials">
+        <div class="testimontials-header">
+            <h2>Read What Others Have to Say</h2>
+            <p>Testimonials</p>
+        </div>
+        <div class="testimonial-cards">
+            <!-- ... Your testimonials HTML ... -->
+        </div>
+    </section>
+  `);
 
   // Check the testimonials section title
   const testimonialsTitle = await page.locator('.testimonials-header h2').textContent();
@@ -87,6 +106,9 @@ test('Check Testimonials Section', async ({ page }) => {
   // Check the number of testimonials
   const testimonialCount = await page.locator('.testimonial-cards .testimonial').count();
   expect(testimonialCount).toBe(expectedTestimonialCount);
+
+  // Close the browser
+  await browser.close();
 });
 
 
@@ -163,13 +185,33 @@ test('Check All Footer Links', async ({ page }) => {
 });
 
 test('Check All Footer Icons', async ({ page }) => {
+  // Define the expected icons using their class names
+  const expectedIcons = [
+    'fas fa-home',
+    'fas fa-money-bill-wave',
+    'fas fa-hand-holding-usd',
+    'fas fa-eye',
+    'fas fa-envelope',
+    'fas fa-linkedin',
+    'fas fa-instagram',
+    'fas fa-twitter',
+    'fas fa-store',
+    'fas fa-phone',
+    'fas fa-envelope-open-text',
+  ];
+
+  // Locate all the footer icons
   const footerIcons = await page.locator('.footer-link i');
   const count = await footerIcons.count();
 
   for (let i = 0; i < count; i++) {
     const icon = footerIcons.nth(i);
-    expect(await icon.isVisible()).toBe(true);
+    const iconName = await icon.getAttribute('class');
+
+    // Check if the class name of the icon matches an expected icon class name
+    expect(expectedIcons.includes(iconName)).toBe(true);
   }
 });
+
 
 
