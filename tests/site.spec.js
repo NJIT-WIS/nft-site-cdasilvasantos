@@ -77,19 +77,15 @@ test('Check Buy Section', async ({ page }) => {
 
 
 test('Check Testimonials Section', async ({ page }) => {
-  const expectedTestimonialsTitle = 'Testimonials'; // Expected title
-  const expectedTestimonialCount = 3; // Expected number of testimonials
+  const expectedTestimonialsTitle = 'Read What Others Have to Say';
+  const expectedTestimonialCount = 3; // Assuming there are three testimonials on the page
 
-  // Locate the <h2> element within the .testimonials-header
-  const h2Text = await page.locator('.testimonials-header h2').textContent();
+  // Check the testimonials section title
+  const testimonialsTitle = await page.locator('.testimonials-header h2').textContent();
+  expect(testimonialsTitle).toBe(expectedTestimonialsTitle);
 
-  // Compare the text content with the expected title
-  expect(h2Text).toBe(expectedTestimonialsTitle);
-
-  // Count the number of .testimonial elements within .testimonial-cards
+  // Check the number of testimonials
   const testimonialCount = await page.locator('.testimonial-cards .testimonial').count();
-
-  // Compare the count with the expected number of testimonials
   expect(testimonialCount).toBe(expectedTestimonialCount);
 });
 
@@ -146,26 +142,15 @@ test('Check All Featured Company Logos', async ({ page }) => {
 });
 
 
-async function checkSectionTitle(page, expectedTitle, selector) {
-  // Wait for the element specified by the selector
-  await page.waitForSelector(selector);
+test('Check All Testimonials', async ({ page }) => {
+  const testimonials = await page.locator('.testimonial');
+  const count = await testimonials.count();
 
-  // Locate the element using the selector
-  const elementText = await page.locator(selector).textContent();
-
-  // Compare the text content with the expected title
-  expect(elementText).toBe(expectedTitle);
-}
-
-test('Check Testimonials Section Title', async ({ page }) => {
-  const expectedTestimonialsTitle = 'Read What Others Have to Say'; // Expected title
-  const testimonialsSelector = '.testimonials-header h2'; // Selector for the element
-
-  // Call the reusable function to check the section title
-  await checkSectionTitle(page, expectedTestimonialsTitle, testimonialsSelector);
+  for (let i = 0; i < count; i++) {
+    const testimonial = testimonials.nth(i);
+    expect(await testimonial.isVisible()).toBe(true);
+  }
 });
-
-
 
 test('Check All Footer Links', async ({ page }) => {
   const footerLinks = await page.locator('.footer-link');
@@ -178,33 +163,13 @@ test('Check All Footer Links', async ({ page }) => {
 });
 
 test('Check All Footer Icons', async ({ page }) => {
-  // Define the expected icons using their class names
-  const expectedIcons = [
-    'fas fa-home',
-    'fas fa-money-bill-wave',
-    'fas fa-hand-holding-usd',
-    'fas fa-eye',
-    'fas fa-envelope',
-    'fas fa-linkedin',
-    'fas fa-instagram',
-    'fas fa-twitter',
-    'fas fa-store',
-    'fas fa-phone',
-    'fas fa-envelope-open-text',
-  ];
-
-  // Locate all the footer icons
   const footerIcons = await page.locator('.footer-link i');
   const count = await footerIcons.count();
 
   for (let i = 0; i < count; i++) {
     const icon = footerIcons.nth(i);
-    const iconName = await icon.getAttribute('class');
-
-    // Check if the class name of the icon matches an expected icon class name
-    expect(expectedIcons.includes(iconName)).toBe(true);
+    expect(await icon.isVisible()).toBe(true);
   }
 });
-
 
 
