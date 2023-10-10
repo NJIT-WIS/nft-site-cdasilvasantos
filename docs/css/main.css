@@ -16,3 +16,29 @@
     --h3-font-size: 1.5rem;
     --h4-font-size: 1.25rem;
 }
+
+body {
+    background: var(--background-color);
+    color: white; 
+    font: var(--base-font-size) / 1.6 var(--font-primary);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: var(--font-secondary);
+    text-transform: capitalize;
+}
+
+a {
+    font-family: var(--font-primary);
+    color: var(--base-link-color);
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
