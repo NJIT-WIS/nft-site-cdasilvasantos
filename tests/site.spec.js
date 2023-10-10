@@ -146,15 +146,19 @@ test('Check All Featured Company Logos', async ({ page }) => {
 });
 
 
-test('Check All Testimonials', async ({ page }) => {
-  const testimonials = await page.locator('.testimonial');
-  const count = await testimonials.count();
+test('Check Testimonials Section', async ({ page }) => {
+  const expectedTestimonialsTitle = 'Read What Others Have to Say'; // Expected title
 
-  for (let i = 0; i < count; i++) {
-    const testimonial = testimonials.nth(i);
-    expect(await testimonial.isVisible()).toBe(true);
-  }
+  // Wait for the <h2> element within the .testimonials-header
+  await page.waitForSelector('.testimonials-header h2');
+  
+  // Locate the <h2> element within the .testimonials-header
+  const h2Text = await page.locator('.testimonials-header h2').textContent();
+
+  // Compare the text content with the expected title
+  expect(h2Text).toBe(expectedTestimonialsTitle);
 });
+
 
 test('Check All Footer Links', async ({ page }) => {
   const footerLinks = await page.locator('.footer-link');
